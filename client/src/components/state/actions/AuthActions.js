@@ -64,7 +64,6 @@ export const getExchangeCode = (code) => {
     return dispatch => {
         dispatch(authStart());        
         axios.get(`${process.env.REACT_APP_SERVER}/callback?code=${code}`).then(res => {
-            console.log(res.data, 'dd')
             localStorage.setItem('accessToken', res.data.accessToken);
             dispatch(exchangeCode(res.data.accessToken));   
         });
@@ -72,16 +71,16 @@ export const getExchangeCode = (code) => {
 }
 
 export const getVehiclesData = (accessToken) => {
-    return async dispatch => {
+    return dispatch => {
         dispatch(authStart());        
         const authData = {
             accessToken: accessToken
         };
-        await axios.post(`${process.env.REACT_APP_SERVER}/vehicles`, authData).then(res => {
+        axios.post(`${process.env.REACT_APP_SERVER}/vehicles`, authData).then(res => {
             const vehicleIds = res.data.vehicles;
             dispatch(getVehicles(vehicleIds));  
         }).catch((e) => {
-            console.log(e, 'eee');
+            dispatch(authFail(e.error));  
         });
     };
 }

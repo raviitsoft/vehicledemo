@@ -4,6 +4,7 @@ import * as actions from '../../state/actions/index';
 
 import carImg from '../../../assets/images/car/image_car_3.png';
 import Spinner from '../../UI/Spinner/Spinner';
+import MapContainer from '../../common/MapContainer'
 
 class VehicleInfo extends Component{
     constructor(props) {
@@ -103,7 +104,12 @@ class VehicleInfo extends Component{
                                         <div className="col-sm-12">
                                             <h3>Location</h3>
                                             { vehicleLoc.isLoading ? null :
-                                            <p>{vehicleLoc.location.data.data.latitude} , {vehicleLoc.location.data.data.longitude }</p>
+                                            <div className="map">
+                                                <MapContainer 
+                                                        latitude={vehicleLoc.location.data.data.latitude} 
+                                                        longitude={vehicleLoc.location.data.data.longitude} 
+                                                />
+                                            </div>
                                             }
                                         </div>
                                     </div>
