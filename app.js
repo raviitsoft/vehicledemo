@@ -29,9 +29,9 @@ const client = new smartcar.AuthClient({
 });
 
 
-app.get('/', (req, res) => {
-  res.send({name:'reav'});
-});
+// app.get('/', (req, res) => {
+//   res.send({name:'reav'});
+// });
 
 // app.get('/login', function(req, res) {
 //   const link = client.getAuthUrl();
