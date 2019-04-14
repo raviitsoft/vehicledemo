@@ -1,0 +1,32 @@
+{
+  "name": "vehicle-dashboard",
+  "version": "0.2.1",
+  "description": "A sample app for the Smartcar API.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "server": "nodemon app.js",
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.3",
+    "concurrently": "^4.1.0",
+    "cookie-session": "^2.0.0-beta.3",
+    "cors": "^2.8.5",
+    "envvar": "^2.0.0",
+    "express": "^4.16.3",
+    "express-handlebars": "^3.0.0",
+    "lodash": "^4.17.10",
+    "nodemon": "^1.18.11",
+    "opn": "^5.3.0",
+    "smartcar": "^4.1.0",
+    "url": "^0.11.0",
+    "validator": "^10.6.0"
+  }
+}
