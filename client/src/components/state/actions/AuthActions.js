@@ -80,7 +80,7 @@ export const getVehiclesData = (accessToken) => {
             const vehicleIds = res.data.vehicles;
             dispatch(getVehicles(vehicleIds));  
         }).catch((e) => {
-            dispatch(authFail(e.error));  
+            dispatch(logout());  
         });
     };
 }

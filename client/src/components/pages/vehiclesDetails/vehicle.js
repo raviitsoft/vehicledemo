@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-//import { bindActionCreators } from 'redux'
+import { Redirect} from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../../state/actions/index';
 
@@ -23,8 +23,13 @@ class Vehicle extends Component {
     }
 
     render(){
+        let authRedirect = null;
+        if (this.props.isLoading && !this.props.accessToken) {
+            authRedirect = <Redirect to='/' />;
+        }
         return(
             <div>
+                {authRedirect}
                 <div className="row">
                 <div className="col-lg-6 col-md-12">
                     <VehicleInfo vehicleIds={this.props.vehicleIds} isLoading={this.props.isLoading} />
