@@ -10,7 +10,8 @@ const keys = require('./config/keys');
 
 const app = express()
   .use(cors());
-const port = 8000;
+
+const PORT = process.env.PORT || 8000;
 
 app.use(session({
   name: 'demo-session',
@@ -200,7 +201,7 @@ app.get('/callback', (req, res) => {
 });
 
 
-if (process.env.NODE_ENV === 'production') {
+//if (process.env.NODE_ENV === 'production') {
   // Express will serve up production assets
   // like our main.js file, or main.css file!
   app.use(express.static('client/build'));
@@ -211,6 +212,6 @@ if (process.env.NODE_ENV === 'production') {
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   });
-}
+//}
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
