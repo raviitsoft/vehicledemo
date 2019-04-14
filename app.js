@@ -26,7 +26,7 @@ const client = new smartcar.AuthClient({
   clientId: keys.REACT_APP_CLIENT_ID,
   clientSecret: keys.REACT_APP_CLIENT_SECRET,
   redirectUri: keys.REACT_APP_REDIRECT_URI,
-  testMode: true,
+  testMode: keys.REACT_APP_TEST_MODE,
 });
 
 
@@ -105,7 +105,6 @@ app.get('/callback', (req, res) => {
 
      return Promise.all(vehiclePromises)
        .then((data) => {
-         console.log(data, 'data');
          // Add vehicle info to vehicle objects 
          _.forEach(data, vehicle => {
            const {id: vehicleId} = vehicle;
@@ -121,6 +120,62 @@ app.get('/callback', (req, res) => {
    });
 });
 
+
+app.post('/info', (req, res, next) => {
+  const {vehicleId, accessToken} = req.body;
+  if (!accessToken) {
+    return res.send({code: 'Invalid access: undefined- /request.'});
+  }
+  const instance = new smartcar.Vehicle(vehicleId, accessToken);
+  instance.info().then(data => {
+      res.send({data: data})
+    })
+    .catch((err) => {
+      res.status(200).send({data:null, message: err.message, action: 'Failed to get vehicle info - fetching vehicle info'});
+    });
+});
+
+app.post('/location', (req, res, next) => {
+  const {vehicleId, accessToken} = req.body;
+  if (!accessToken) {
+    return res.send({code: 'Invalid access: undefined- /request.'});
+  }
+  const instance = new smartcar.Vehicle(vehicleId, accessToken);
+  instance.location().then(data => {
+      res.send({data: data})
+    })
+    .catch((err) => {
+      res.status(200).send({data:null, message: err.message, action: 'Failed to get vehicle location - fetching vehicle location'});
+    });
+});
+
+app.post('/odometer', (req, res, next) => {
+  const {vehicleId, accessToken} = req.body;
+  if (!accessToken) {
+    return res.send({code: 'Invalid access: undefined- /request.'});
+  }
+  const instance = new smartcar.Vehicle(vehicleId, accessToken);
+  instance.odometer().then(data => {
+      res.send({data: data})
+    })
+    .catch((err) => {
+      res.status(200).send({data:null, message: err.message, action: 'Failed to get vehicle odometer - fetching vehicle odometer'});
+    });
+});
+
+app.post('/vin', (req, res, next) => {
+  const {vehicleId, accessToken} = req.body;
+  if (!accessToken) {
+    return res.send({code: 'Invalid access: undefined- /request.'});
+  }
+  const instance = new smartcar.Vehicle(vehicleId, accessToken);
+  instance.vin().then(data => {
+      res.send({data: data})
+    })
+    .catch((err) => {
+      res.status(200).send({data:null, message: err.message, action: 'Failed to get vehicle vin - fetching vehicle vin'});
+    });
+});
 
 /**
  * Triggers a request to the vehicle and renders the response.
@@ -141,7 +196,7 @@ app.get('/callback', (req, res) => {
           res.send({data: data, type: requestType})
         })
         .catch((err) => {
-          res.status(200).send({message: err.message, action: 'Failed to get vehicle info - fetching vehicle info'});
+          res.status(200).send({data:null, message: err.message, action: 'Failed to get vehicle info - fetching vehicle info'});
         });
       break;
     case 'location':
@@ -150,7 +205,7 @@ app.get('/callback', (req, res) => {
           res.send({data: data, type: requestType})
         })
         .catch((err) => {
-          res.status(200).send({message: err.message, action: 'Failed to get vehicle location - fetching vehicle location'});
+          res.status(200).send({data:null, message: err.message, action: 'Failed to get vehicle location - fetching vehicle location'});
         });
       break;
     case 'odometer':
@@ -159,20 +214,26 @@ app.get('/callback', (req, res) => {
           res.send({data: data, type: requestType})
         })
         .catch((err) => {
-          res.status(200).send({message: err.message, action: 'Failed to get vehicle odometer - fetching vehicle odometer'});
+          res.status(200).send({data:null, message: err.message, action: 'Failed to get vehicle odometer - fetching vehicle odometer'});
+        });
+      break;
+    case 'vin':
+      instance.vin()
+        .then(data => {
+          res.send({data: data, type: requestType})
+        })
+        .catch((err) => {
+          res.status(200).send({data:null, message: err.message, action: 'Failed to get vehicle vin - fetching vehicle vin'});
         });
       break;
     case 'lock':
       instance.lock()
         .then(res => {
-          console.log(res, 'lock');
-          // res.send({
-          //   // Lock and unlock requests do not return data if successful
-          //   data: {
-          //     action: 'Lock request sent.',
-          //   },
-          //   type: requestType,
-          // });
+          res.send({
+            // Lock and unlock requests do not return data if successful
+            data: res,
+            type: requestType,
+          });
         })
         .catch((err) => {
           res.status(200).send({message: err.message, action: 'Failed to send lock request to vehicle.'});
@@ -181,7 +242,11 @@ app.get('/callback', (req, res) => {
     case 'unlock':
       instance.unlock()
         .then(res => {
-          console.log(res, 'unlock');
+          res.send({
+            // Lock and unlock requests do not return data if successful
+            data: res,
+            type: requestType,
+          });
           // res.send('data', {
           //   requestType,
           //   // Lock and unlock requests do not return data if successful
@@ -201,7 +266,7 @@ app.get('/callback', (req, res) => {
 });
 
 
-//if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production') {
   // Express will serve up production assets
   // like our main.js file, or main.css file!
   app.use(express.static('client/build'));
@@ -212,6 +277,6 @@ app.get('/callback', (req, res) => {
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   });
-//}
+}
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));

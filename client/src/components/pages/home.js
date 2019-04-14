@@ -21,7 +21,7 @@ class Home extends Component {
             clientSecret: process.env.REACT_APP_CLIENT_SECRET,
             redirectUri: process.env.REACT_APP_REDIRECT_URI,
             scope: ['read_vehicle_info', 'read_location', 'read_odometer', 'control_security', 'read_vin'],
-            testMode: true,
+            testMode: process.env.REACT_APP_TEST_MODE,
         })
         const authUrl = client.getAuthUrl();
         window.location.assign(authUrl);

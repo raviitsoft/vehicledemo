@@ -19,7 +19,7 @@ class Vehicle extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        console.log(prevProps, 'vehicle - prevProps');
+        //console.log(prevProps, 'vehicle - prevProps');
     }
 
     render(){
