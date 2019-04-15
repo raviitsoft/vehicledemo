@@ -29,17 +29,6 @@ const client = new smartcar.AuthClient({
   testMode: keys.REACT_APP_TEST_MODE,
 });
 
-
-// app.get('/', (req, res) => {
-//   res.send({name:'reav'});
-// });
-
-// app.get('/login', function(req, res) {
-//   const link = client.getAuthUrl();
-//   res.redirect(link);
-// });
-
-
 /**
  * Disconnect each vehicle to cleanly logout.
  */
@@ -69,9 +58,6 @@ app.get('/callback', (req, res) => {
   return client.exchangeCode(code)
     .then((_access) => {
       // in a production app you'll want to store this in some kind of persistent storage
-      req.session = {};
-      req.session.vehicles = {};
-      req.session.access = _access;
       res.send(_access);
 
     }).catch((e) => {
@@ -189,49 +175,13 @@ app.post('/vin', (req, res, next) => {
   // const vehicle = vehicles[vehicleId];
   const instance = new smartcar.Vehicle(vehicleId, accessToken);
 
-  switch(requestType) {
-    case 'info':
-      instance.info()
-        .then(data => {
-          res.send({data: data, type: requestType})
-        })
-        .catch((err) => {
-          res.status(200).send({data:null, message: err.message, action: 'Failed to get vehicle info - fetching vehicle info'});
-        });
-      break;
-    case 'location':
-      instance.location()
-        .then(data => {
-          res.send({data: data, type: requestType})
-        })
-        .catch((err) => {
-          res.status(200).send({data:null, message: err.message, action: 'Failed to get vehicle location - fetching vehicle location'});
-        });
-      break;
-    case 'odometer':
-      instance.odometer()
-        .then(data => {
-          res.send({data: data, type: requestType})
-        })
-        .catch((err) => {
-          res.status(200).send({data:null, message: err.message, action: 'Failed to get vehicle odometer - fetching vehicle odometer'});
-        });
-      break;
-    case 'vin':
-      instance.vin()
-        .then(data => {
-          res.send({data: data, type: requestType})
-        })
-        .catch((err) => {
-          res.status(200).send({data:null, message: err.message, action: 'Failed to get vehicle vin - fetching vehicle vin'});
-        });
-      break;
+  switch(requestType) {    
     case 'lock':
       instance.lock()
-        .then(res => {
+        .then(() => {
           res.send({
             // Lock and unlock requests do not return data if successful
-            data: res,
+            data: "Successfully lock request has been sent.",
             type: requestType,
           });
         })
@@ -241,19 +191,11 @@ app.post('/vin', (req, res, next) => {
       break;
     case 'unlock':
       instance.unlock()
-        .then(res => {
+        .then(() => {
           res.send({
-            // Lock and unlock requests do not return data if successful
-            data: res,
+            data: "Successfully unlock request has been sent",
             type: requestType,
           });
-          // res.send('data', {
-          //   requestType,
-          //   // Lock and unlock requests do not return data if successful
-          //   data: {
-          //     action: 'Unlock request sent.',
-          //   },
-          // });
         })
         .catch((err) => {
           res.status(200).send({message: err.message, action: 'Failed to send unlock request to vehicle.'});

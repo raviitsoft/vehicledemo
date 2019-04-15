@@ -33,11 +33,13 @@ class VehicleInfo extends Component{
     }
 
     onChangeHandler = (value) => {
-        console.log(value, 'value');
+        const vehicleId = this.state.vehicleId;
+        const accessToken = this.props.accessToken;
+        this.props.onGetVehiclesLockUnlock(vehicleId, accessToken, value);
     }
 
     render(){
-        const { vehicleIds, vehicleInfo, vehicleLoc, vehicleObometer, vehicleVin } = this.props
+        const { vehicleIds, vehicleInfo, vehicleLoc, vehicleObometer, vehicleVin, lockdata } = this.props
         //console.log(this.props, 'vehicleData')
         let vehicleOptions = null
         if (vehicleIds==='undefined') {
@@ -49,6 +51,17 @@ class VehicleInfo extends Component{
                 );
             });
         }
+        let lockMessage = null;
+        if(!lockdata.isLoading) {
+            lockMessage = (
+                <div className="alert alert-success alert-dismissible fade show" role="alert">
+                    {lockdata.data.data}
+                <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+            );
+        }
         return (
             <div className="Box">
                         <div className="top-bar">
@@ -58,7 +71,7 @@ class VehicleInfo extends Component{
                             <div className="right_info">
                                 <span>?</span>
                             </div>
-                        </div>                       
+                        </div>                 
                         <div className="content mt-5 mb-5 row">                       
                             <div className="col-sm-3 align-self-center mobile-center">
                                 <img src={carImg} className="img-fluid" alt="" title="" />
@@ -119,6 +132,7 @@ class VehicleInfo extends Component{
                                                                 Unlock
                                                             </RadioButton>
                                                         </RadioGroup>
+                                                        {lockMessage}
                                                     </div>
                                                 </div>                                            
                                             </div>
@@ -156,13 +170,15 @@ const mapStateToProps = state => {
         vehicleInfo: state.auth.vehicleInfo,
         vehicleLoc: state.auth.vehicleLoc,
         vehicleVin: state.auth.vehicleVin,
-        vehicleObometer: state.auth.vehicleObometer
+        vehicleObometer: state.auth.vehicleObometer,
+        lockdata: state.auth.lockdata
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         onGetVehiclesDetails: ( vehicleId, accessToken ) => dispatch( actions.getVehiclesDetails( vehicleId, accessToken )),
+        onGetVehiclesLockUnlock: ( vehicleId, accessToken, type ) => dispatch( actions.getVehiclesLockUnlock( vehicleId, accessToken, type )),
     };
 };
 

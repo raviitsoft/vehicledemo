@@ -19,6 +19,10 @@ body {
     margin-bottom: 0px;
 }
 
+.messageRed{
+    color: red;
+}
+
 .main-header select {
     width: 90px;
     float: right;

@@ -8,6 +8,7 @@ import {
     GET_VEHICLES_LOC,
     GET_VEHICLES_VIN,
     GET_VEHICLES_ODOMETER,
+    GET_VEHICLES_LOCK_UNLOCK,
     AUTH_LOGOUT
 } from '../actions/AuthActions';
 import { updateObject } from '../utility';
@@ -29,6 +30,10 @@ const initialState = {
     vehicleObometer: {
         isLoading: true,
         odometer: {}
+    },
+    lockdata: {
+        isLoading: true,
+        data: {}
     },
     requestType: null,
     accessToken: null,
@@ -65,6 +70,9 @@ export const getVehicleInfo = (state, action) => {
             isLoading: false,
             info: action.info
         },
+        lockdata:{
+            isLoading: true,
+        },
         error: null,
         loading: false
     } );
@@ -76,6 +84,9 @@ export const getVehicleLoc = (state, action) => {
             isLoading: false,
             location: action.location
         },
+        lockdata:{
+            isLoading: true,
+        },
         loading: false
     } );
 };
@@ -85,6 +96,9 @@ export const getVehicleVin = (state, action) => {
             isLoading: false,
             vin: action.vin
         },
+        lockdata:{
+            isLoading: true,
+        },
         loading: false
     } );
 };
@@ -93,6 +107,19 @@ export const getVehicleOdometer = (state, action) => {
         vehicleObometer:{
             isLoading: false,
             odometer: action.odometer
+        },
+        lockdata:{
+            isLoading: true,
+        },
+        loading: false
+    } );
+};
+
+export const vehicleLockUnlock = (state, action) => {
+    return updateObject( state, { 
+        lockdata:{
+            isLoading: false,
+            data: action.lockdata
         },
         loading: false
     } );
@@ -137,6 +164,7 @@ export const AuthReducer = ( state = initialState, action ) => {
         case GET_VEHICLES_INFO: return getVehicleInfo(state, action);
         case GET_VEHICLES_VIN: return getVehicleVin(state, action);
         case GET_VEHICLES_ODOMETER: return getVehicleOdometer(state, action);
+        case GET_VEHICLES_LOCK_UNLOCK: return vehicleLockUnlock(state, action);
         case AUTH_FAIL: return authFail(state, action);
         case AUTH_LOGOUT: return authLogout(state, action);
         default:

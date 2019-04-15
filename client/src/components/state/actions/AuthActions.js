@@ -9,6 +9,7 @@ export const GET_VEHICLES_INFO = 'GET_VEHICLES_INFO';
 export const GET_VEHICLES_LOC = 'GET_VEHICLES_LOC';
 export const GET_VEHICLES_ODOMETER = 'GET_VEHICLES_ODOMETER';
 export const GET_VEHICLES_VIN = 'GET_VEHICLES_VIN';
+export const GET_VEHICLES_LOCK_UNLOCK = 'GET_VEHICLES_LOCK_UNLOCK';
 export const AUTH_FAIL = 'AUTH_FAIL';
 export const AUTH_LOGOUT = 'AUTH_LOGOUT';
 export const SET_AUTH_REDIRECT_PATH = 'SET_AUTH_REDIRECT_PATH';
@@ -60,6 +61,13 @@ export const getVehicleOdometer = (data) => {
     };
 };
 
+export const vihicleLockUnlock = (data) => {
+    return {
+        type: GET_VEHICLES_LOCK_UNLOCK,
+        lockdata : data
+    }
+}
+
 export const getExchangeCode = (code) => {
     return dispatch => {
         dispatch(authStart());        
@@ -103,6 +111,20 @@ export const getVehiclesDetails = (vehicleId,  accessToken) => {
         });
         axios.post(`${process.env.REACT_APP_SERVER}/odometer`, authData).then(res => {
             dispatch(getVehicleOdometer(res.data));
+        });
+    };
+}
+
+export const getVehiclesLockUnlock = (vehicleId,  accessToken, type) => {
+    return dispatch => {
+        //dispatch(authStart());        
+        const authData = {
+            vehicleId: vehicleId,
+            accessToken: accessToken,
+            requestType: type
+        };
+        axios.post(`${process.env.REACT_APP_SERVER}/request`, authData).then(res => {
+            dispatch(vihicleLockUnlock(res.data));
         });
     };
 }

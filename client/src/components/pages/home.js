@@ -20,7 +20,7 @@ class Home extends Component {
             clientId: process.env.REACT_APP_CLIENT_ID,
             clientSecret: process.env.REACT_APP_CLIENT_SECRET,
             redirectUri: process.env.REACT_APP_REDIRECT_URI,
-            scope: ['read_vehicle_info', 'read_location', 'read_odometer', 'control_security', 'read_vin'],
+            scope: ['read_vehicle_info', 'read_location', 'read_odometer', 'control_security', 'control_security:unlock', 'control_security:lock', 'read_vin'],
             testMode: process.env.REACT_APP_TEST_MODE,
         })
         const authUrl = client.getAuthUrl();
