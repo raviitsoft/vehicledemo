@@ -38,7 +38,7 @@ class Home extends Component {
             <div className="row justify-content-center align-items-center">
                 <div className="login-btn">
                     {authRedirect}
-                    <h1>Let's get started</h1>
+                    <h1 className="mb-5">Let's get started</h1>
                     <button className="btn btn-lg btn-success" onClick={this.authorize}> Connect to your car</button>
                 </div>
             </div>
