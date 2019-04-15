@@ -114,7 +114,7 @@ class VehicleInfo extends Component{
                                                 <div className="row mb-5">
                                                     <div className="col-sm-6">
                                                         <h3>Distance Travel</h3>
-                                                        <p>{ vehicleObometer.isLoading ? null: vehicleObometer.odometer.data.data.distance }</p>
+                                                        <p>{ vehicleObometer.isLoading ? null: vehicleObometer.odometer.data.data.distance } { vehicleObometer.isLoading ? null: vehicleObometer.odometer.data.unitSystem === 'metric' ? 'KM' : 'MI'}</p>
                                                     </div>
                                                     <div className="col-sm-6">
                                                         <h3>VIN</h3>
