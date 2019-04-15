@@ -38,10 +38,7 @@ class Home extends Component {
             <div className="row justify-content-center align-items-center">
                 <div className="login-btn">
                     {authRedirect}
-                    <h1>Smartcar Vehicle</h1>
-                    <p>
-                        This is a Vehicle application that walks through using the Smartcar API to authenticate with and make requests to vehicles.
-                    </p>
+                    <h1>Let's get started</h1>
                     <button className="btn btn-lg btn-success" onClick={this.authorize}> Connect to your car</button>
                 </div>
             </div>

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
+import { RadioGroup, RadioButton } from 'react-radio-buttons';
 import * as actions from '../../state/actions/index';
 
 import carImg from '../../../assets/images/car/image_car_3.png';
@@ -31,6 +32,10 @@ class VehicleInfo extends Component{
         this.setState({vehicleId : e.target.value});
     }
 
+    onChangeHandler = (value) => {
+        console.log(value, 'value');
+    }
+
     render(){
         const { vehicleIds, vehicleInfo, vehicleLoc, vehicleObometer, vehicleVin } = this.props
         //console.log(this.props, 'vehicleData')
@@ -60,10 +65,10 @@ class VehicleInfo extends Component{
                             </div>
                             <div className="col-sm-9">
                                 <div className="row form-group Vname">
-                                    <div className="col-12">
-                                        <label>Vehicle Name</label> 
+                                    <div className="col-3">
+                                        <label>Select Vehicle</label> 
                                         <select className="form-control" value={this.state.vehicleId} onChange={(val) => this.vehicleIdHandler(val)}>
-                                        <option value="">Please select vehicle name</option>
+                                        <option value="">Please select vehicle info</option>
                                         {vehicleOptions}
                                         </select>                               
                                     </div>
@@ -79,41 +84,61 @@ class VehicleInfo extends Component{
                                     </div> */}
                                 </div>
                                 { this.props.isLoading ? <Spinner /> : 
-                                <div>
-                                    <div className="row mb-3">
-                                        <div className="col-sm-6">
-                                            <h3>Make</h3>
-                                            <p>{ vehicleInfo.isLoading ? null: vehicleInfo.info.data.make }</p>
-                                        </div>
-                                        <div className="col-sm-6">
-                                            <h3>Modal</h3>
-                                            <p>{ vehicleInfo.isLoading ? null: vehicleInfo.info.data.model }</p>
-                                        </div>
-                                    </div>    
-                                    <div className="row">
-                                        <div className="col-sm-6">
-                                            <h3>Odometer</h3>
-                                            <p>{ vehicleObometer.isLoading ? null: vehicleObometer.odometer.data.data.distance } { vehicleObometer.isLoading ? null: vehicleObometer.odometer.data.unitSystem }</p>
-                                        </div>
-                                        <div className="col-sm-6">
-                                            <h3>Vin</h3>
-                                            <p>{ vehicleVin.isLoading ? null: vehicleVin.vin.data }</p>
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-sm-12">
-                                            <h3>Location</h3>
-                                            { vehicleLoc.isLoading ? null :
-                                            <div className="map">
-                                                <MapContainer 
-                                                        latitude={vehicleLoc.location.data.data.latitude} 
-                                                        longitude={vehicleLoc.location.data.data.longitude} 
-                                                />
+                                    vehicleLoc.isLoading ? null :
+                                    <div>
+                                        <div className="row mb-3">
+                                            <div className="col-sm-6">
+                                                <div className="row mb-5 mt-3">
+                                                    <div className="col-sm-6">
+                                                        <h3>Make</h3>
+                                                        <p>{ vehicleInfo.isLoading ? null: vehicleInfo.info.data.make }</p>
+                                                    </div>
+                                                    <div className="col-sm-6">
+                                                        <h3>Model</h3>
+                                                        <p>{ vehicleInfo.isLoading ? null: vehicleInfo.info.data.model }</p>
+                                                    </div>
+                                                </div>
+                                                <div className="row mb-5">
+                                                    <div className="col-sm-6">
+                                                        <h3>Distance Travel</h3>
+                                                        <p>{ vehicleObometer.isLoading ? null: vehicleObometer.odometer.data.data.distance }</p>
+                                                    </div>
+                                                    <div className="col-sm-6">
+                                                        <h3>VIN</h3>
+                                                        <p>{ vehicleVin.isLoading ? null: vehicleVin.vin.data }</p>
+                                                    </div>
+                                                </div>
+                                                <div className="row">
+                                                    <div className="col-sm-12">
+                                                        <h3>Lock/Unlock</h3>
+                                                        <RadioGroup onChange={ this.onChangeHandler } horizontal>
+                                                            <RadioButton value="lock" iconSize={ 25 } iconInnerSize={ 15 } pointColor={'green'}>
+                                                                Lock
+                                                            </RadioButton>
+                                                            <RadioButton value="unlock" iconSize={ 25 } iconInnerSize={ 15 } pointColor={'green'}>
+                                                                Unlock
+                                                            </RadioButton>
+                                                        </RadioGroup>
+                                                    </div>
+                                                </div>                                            
                                             </div>
-                                            }
-                                        </div>
+                                            <div className="col-sm-6">
+                                                <div className="row">
+                                                    <div className="col-sm-12">
+                                                        <h3>Location</h3>
+                                                        { vehicleLoc.isLoading ? null :
+                                                        <div className="map">
+                                                            <MapContainer 
+                                                                    latitude={vehicleLoc.location.data.data.latitude} 
+                                                                    longitude={vehicleLoc.location.data.data.longitude} 
+                                                            />
+                                                        </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>                                  
                                     </div>
-                                </div>
                                 }
                             </div>                                    
                         </div>
