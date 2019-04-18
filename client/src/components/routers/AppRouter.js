@@ -7,6 +7,7 @@ import {
     Home,
     Auth,
     Vehicle,
+    QuoteForm,
     Logout
 } from '../pages';
 
@@ -23,6 +24,7 @@ class AppRouter extends Component {
             <Switch>                
                 <Route path='/auth' component={Auth} />
                 <Route path='/vehicle' component={Vehicle} />
+                <Route path='/insurance' component={QuoteForm} />
                 <Route path='/Logout' component={Logout} />
                 <Route path='/' component={Home} exact={true} />
             </Switch>

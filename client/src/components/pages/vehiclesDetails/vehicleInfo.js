@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { RadioGroup, RadioButton } from 'react-radio-buttons';
+// import { RadioGroup, RadioButton } from 'react-radio-buttons';
+import Switch from "react-switch";
+import MapContainer from '../../common/MapContainer'
 import * as actions from '../../state/actions/index';
 
 import carImg from '../../../assets/images/car/image_car_3.png';
 import Spinner from '../../UI/Spinner/Spinner';
-import MapContainer from '../../common/MapContainer'
+
 
 class VehicleInfo extends Component{
     constructor(props) {
@@ -13,6 +15,7 @@ class VehicleInfo extends Component{
         this.state = {
             requestType: 'info',
             vehicleId: '',
+            checked: false
          };
     }
 
@@ -36,6 +39,17 @@ class VehicleInfo extends Component{
         const vehicleId = this.state.vehicleId;
         const accessToken = this.props.accessToken;
         this.props.onGetVehiclesLockUnlock(vehicleId, accessToken, value);
+    }
+
+    handleChange = (checked) => {
+        const vehicleId = this.state.vehicleId;
+        const accessToken = this.props.accessToken;
+        if(checked){
+            this.props.onGetVehiclesLockUnlock(vehicleId, accessToken, 'lock');
+        }else {
+            this.props.onGetVehiclesLockUnlock(vehicleId, accessToken, 'unlock');
+        }
+        this.setState({ checked: checked });
     }
 
     render(){
@@ -64,99 +78,119 @@ class VehicleInfo extends Component{
         }
         return (
             <div className="Box">
-                        <div className="top-bar">
-                            <div className="caption">
-                                <h2>Vehicle Info</h2>
-                            </div>
-                            <div className="right_info">
-                                <span>?</span>
-                            </div>
-                        </div>                 
-                        <div className="content mt-5 mb-5 row">                       
-                            <div className="col-sm-3 align-self-center mobile-center">
-                                <img src={carImg} className="img-fluid" alt="" title="" />
-                            </div>
-                            <div className="col-sm-9">
-                                <div className="row form-group Vname">
-                                    <div className="col-3">
-                                        <label>Select Vehicle</label> 
-                                        <select className="form-control" value={this.state.vehicleId} onChange={(val) => this.vehicleIdHandler(val)}>
-                                        <option value="">Please select vehicle info</option>
-                                        {vehicleOptions}
-                                        </select>                               
-                                    </div>
-                                    {/* <div className="col-6">
-                                        <label>Select a request type</label>
-                                        <select className="form-control" value={this.state.requestType} onChange={(val) => this.requestTypeHandler(val)}>
-                                            <option value="info">Vehicle info</option>
-                                            <option value="location">Location</option>
-                                            <option value="odometer">Odometer</option>
-                                            <option value="lock">Lock doors</option>
-                                            <option value="unlock">Unlock doors</option>
-                                        </select>
-                                    </div> */}
-                                </div>
-                                { this.props.isLoading ? <Spinner /> : 
-                                    vehicleLoc.isLoading ? null :
-                                    <div>
-                                        <div className="row mb-3">
-                                            <div className="col-sm-6">
-                                                <div className="row mb-5 mt-3">
-                                                    <div className="col-sm-6">
-                                                        <h3>Make</h3>
-                                                        <p>{ vehicleInfo.isLoading ? null: vehicleInfo.info.data.make }</p>
-                                                    </div>
-                                                    <div className="col-sm-6">
-                                                        <h3>Model</h3>
-                                                        <p>{ vehicleInfo.isLoading ? null: vehicleInfo.info.data.model }</p>
-                                                    </div>
-                                                </div>
-                                                <div className="row mb-5">
-                                                    <div className="col-sm-6">
-                                                        <h3>Distance Travel</h3>
-                                                        <p>{ vehicleObometer.isLoading ? null: vehicleObometer.odometer.data.data.distance } { vehicleObometer.isLoading ? null: vehicleObometer.odometer.data.unitSystem === 'metric' ? 'KM' : 'MI'}</p>
-                                                    </div>
-                                                    <div className="col-sm-6">
-                                                        <h3>VIN</h3>
-                                                        <p>{ vehicleVin.isLoading ? null: vehicleVin.vin.data }</p>
-                                                    </div>
-                                                </div>
-                                                <div className="row">
-                                                    <div className="col-sm-12">
-                                                        <h3>Lock/Unlock</h3>
-                                                        <RadioGroup onChange={ this.onChangeHandler } horizontal>
-                                                            <RadioButton value="lock" iconSize={ 25 } iconInnerSize={ 15 } pointColor={'green'}>
-                                                                Lock
-                                                            </RadioButton>
-                                                            <RadioButton value="unlock" iconSize={ 25 } iconInnerSize={ 15 } pointColor={'green'}>
-                                                                Unlock
-                                                            </RadioButton>
-                                                        </RadioGroup>
-                                                        {lockMessage}
-                                                    </div>
-                                                </div>                                            
-                                            </div>
-                                            <div className="col-sm-6">
-                                                <div className="row">
-                                                    <div className="col-sm-12">
-                                                        <h3>Location</h3>
-                                                        { vehicleLoc.isLoading ? null :
-                                                        <div className="map">
-                                                            <MapContainer 
-                                                                    latitude={vehicleLoc.location.data.data.latitude} 
-                                                                    longitude={vehicleLoc.location.data.data.longitude} 
-                                                            />
-                                                        </div>
-                                                        }
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>                                  
-                                    </div>
-                                }
-                            </div>                                    
-                        </div>
+                <div className="top-bar">
+                    <div className="caption">
+                        <h2>Vehicle Info</h2>
                     </div>
+                    <div className="right_info">
+                        <span>?</span>
+                    </div>
+                </div>                 
+                <div className="content mt-5 mb-5 row">                       
+                    <div className="col-sm-3 align-self-center mobile-center">
+                        <img src={carImg} className="img-fluid" alt="" title="" />
+                    </div>
+                    <div className="col-sm-9">
+                        <div className="row form-group Vname">
+                            <div className="col-3">
+                                <label>Select Vehicle</label> 
+                                <select className="form-control" value={this.state.vehicleId} onChange={(val) => this.vehicleIdHandler(val)}>
+                                <option value="">Please select vehicle info</option>
+                                {vehicleOptions}
+                                </select>                               
+                            </div>
+                            {/* <div className="col-6">
+                                <label>Select a request type</label>
+                                <select className="form-control" value={this.state.requestType} onChange={(val) => this.requestTypeHandler(val)}>
+                                    <option value="info">Vehicle info</option>
+                                    <option value="location">Location</option>
+                                    <option value="odometer">Odometer</option>
+                                    <option value="lock">Lock doors</option>
+                                    <option value="unlock">Unlock doors</option>
+                                </select>
+                            </div> */}
+                        </div>
+                        { this.props.isLoading ? <Spinner /> : 
+                            vehicleLoc.isLoading ? null :
+                            <div>
+                                <div className="row mb-3">
+                                    <div className="col-sm-6">
+                                        <div className="row mb-5 mt-3">
+                                            <div className="col-sm-6">
+                                                <h3>Make</h3>
+                                                <p>{ vehicleInfo.isLoading ? null: vehicleInfo.info.data.make }</p>
+                                            </div>
+                                            <div className="col-sm-6">
+                                                <h3>Model</h3>
+                                                <p>{ vehicleInfo.isLoading ? null: vehicleInfo.info.data.model }</p>
+                                            </div>
+                                        </div>
+                                        <div className="row mb-5">
+                                            <div className="col-sm-6">
+                                                <h3>Mileage</h3>
+                                                <p>{ vehicleObometer.isLoading ? null: vehicleObometer.odometer.data.data.distance.toFixed(0) } { vehicleObometer.isLoading ? null: vehicleObometer.odometer.data.unitSystem === 'metric' ? 'KM' : 'MI'}</p>
+                                            </div>
+                                            <div className="col-sm-6">
+                                                <h3>VIN</h3>
+                                                <p>{ vehicleVin.isLoading ? null: vehicleVin.vin.data }</p>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-sm-12">
+                                                <h3>Lock/Unlock</h3>
+                                                <div className="react-switch-div">
+                                                    <label htmlFor="material-switch">
+                                                    <span>Lock/Unlock</span>
+                                                    <Switch
+                                                        checked={this.state.checked}
+                                                        onChange={this.handleChange}
+                                                        onColor="#d4edda"
+                                                        onHandleColor="#155724"
+                                                        handleDiameter={30}
+                                                        uncheckedIcon={false}
+                                                        checkedIcon={false}
+                                                        boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                                                        activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                                                        height={20}
+                                                        width={48}
+                                                        className="react-switch"
+                                                        id="material-switch"
+                                                    />
+                                                    </label>
+                                                </div>
+                                                {/* <RadioGroup onChange={ this.onChangeHandler } horizontal>
+                                                    <RadioButton value="lock" iconSize={ 25 } iconInnerSize={ 15 } pointColor={'green'}>
+                                                        Lock
+                                                    </RadioButton>
+                                                    <RadioButton value="unlock" iconSize={ 25 } iconInnerSize={ 15 } pointColor={'green'}>
+                                                        Unlock
+                                                    </RadioButton>
+                                                </RadioGroup> */}
+                                                {lockMessage}
+                                            </div>
+                                        </div>                                            
+                                    </div>
+                                    <div className="col-sm-6">
+                                        <div className="row">
+                                            <div className="col-sm-12">
+                                                <h3>Location</h3>
+                                                { vehicleLoc.isLoading ? null :
+                                                <div className="map">
+                                                    <MapContainer 
+                                                            latitude={vehicleLoc.location.data.data.latitude} 
+                                                            longitude={vehicleLoc.location.data.data.longitude} 
+                                                    />
+                                                </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                                  
+                            </div>
+                        }
+                    </div>                                    
+                </div>
+            </div>
         );
     }
 }

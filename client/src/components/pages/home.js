@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect} from 'react-router-dom';
+import { Redirect, Link} from 'react-router-dom';
 import * as smartcar from 'smartcar';
 
 class Home extends Component {
@@ -39,7 +39,8 @@ class Home extends Component {
                 <div className="login-btn">
                     {authRedirect}
                     <h1 className="mb-5">Let's get started</h1>
-                    <button className="btn btn-lg btn-success" onClick={this.authorize}> Connect to your car</button>
+                    <button className="btn btn-lg btn-success mr-4" onClick={this.authorize}> Connect to your car</button>
+                    <Link className="btn btn-lg btn-success" to="/insurance"> Get a Insurance Quote</Link>
                 </div>
             </div>
         )
