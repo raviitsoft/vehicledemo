@@ -39,7 +39,7 @@ class DriversQuoteBlock extends Component {
                     <Col md={5}>
                         <FormGroup>
                             <FormLabel>contact information <span className="text-danger">*</span></FormLabel>
-                            <FormControl type="email" name="email_address" placeholder="ex: hello@creative-tim.com" />
+                            <FormControl type="email" name="email_address" placeholder="ex: hello@getcarvi.com" />
                         </FormGroup>
                     </Col>
                 </Row>

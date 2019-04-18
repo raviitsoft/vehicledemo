@@ -1,3 +1,88 @@
+const quoteForm = {
+    policy:{
+    	effective_date:"2017-11-23",
+    	term_in_months:6,
+    	coverages:{
+    	    bodily_injury:{
+                limit_key:"fifty_one_hundred"
+            },
+    	    property_damage:{
+                limit_key:"five_thousand"
+            },
+    	    medical_payments:{
+                limit_key:"five_thousand"
+            },
+    	    uninsured_motorist_bodily_injury:{
+                limit_key:"fifty_one_hundred"
+            },
+    	    underinsured_motorist_bodily_injury:{
+                limit_key:"fifty_one_hundred"
+            }
+    	},
+        mailing_address: {
+            line_one: "1 Rodeo Drive",
+            city: "beverly hills",
+            state: "CA",
+            zip_code: "92110"
+        }
+    },
+    quote_metadata:{
+      campaign_medium:"Lorem ad exercitation",
+      campaign_name:"veniam cupidatat eu",
+      quote_identifier:"dolore",
+      quote_name:"in aute esse in",
+      partner_unstructured_metadata:{}
+    },
+    vehicles: [
+        {
+            vehicle_identification:{
+                partial_vin:"1GCUKUEJ&D"
+            },
+            mileage:{
+            annual:10000
+         } ,
+         vehicle_usage:"commute",
+         ownership_type:"leased",
+         vehicle_coverages:{
+            comprehensive:{
+               deductible_key:"five_hundred"
+            },
+            collision:{
+               deductible_key:"one_thousand"
+            },
+            rental:{
+               waived:true
+            },
+            roadside:{
+            	waived:false
+            }
+        }
+      }
+    ],
+    drivers: [
+    	{
+    	exclude_from_quote:false,
+    	contact_information:{
+            email_address:"johnny.hustle@gmail.com"
+         },
+    	driver_information:{
+            first_name:"Johnny",
+            middle_name:"Richard",
+            last_name:"Hustle",
+            date_of_birth:"1981-05-27",
+            gender:"male",
+            marital_status:"single",
+            relationship_to_applicant:"applicant"
+         },
+        current_education:{
+         	education_level_clearcover_key:"bachelors_degree"
+         }
+    	}
+    ]
+ }
+
+
+
 const bodilyInjuryOpts = [
     { value: 'twenty_five_fifty', label: 'twenty five fifty' },
     { value: 'thirty_sixty', label: 'thirty dixty' },
@@ -196,6 +281,7 @@ const currentEducationOpts = [
 
 
 export {
+    quoteForm,
     bodilyInjuryOpts,
     propertyDamageOpts,
     medicalPaymentsOpts,
