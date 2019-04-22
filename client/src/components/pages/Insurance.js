@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Input from '../../components/UI/Input/Input';
-import Button from '../../components/UI/Button/Button';
+// import Button from '../../components/UI/Button/Button';
 
 import { updateObject, checkValidity } from '../shared/utility';
 
@@ -270,7 +270,7 @@ class Insurance extends Component {
         }
         console.log(formEleArray, 'formElePolicyArray');
         
-        let form = null;
+        // let form = null;
         // let form = (
         //     <form onSubmit={this.quoteHandler}>
         //         {formEleArray.map((elmForm) => {

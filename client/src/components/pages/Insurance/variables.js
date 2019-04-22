@@ -1,87 +1,65 @@
 const quoteForm = {
-    policy:{
-    	effective_date:"2017-11-23",
-    	term_in_months:6,
-    	coverages:{
-    	    bodily_injury:{
-                limit_key:"fifty_one_hundred"
-            },
-    	    property_damage:{
-                limit_key:"five_thousand"
-            },
-    	    medical_payments:{
-                limit_key:"five_thousand"
-            },
-    	    uninsured_motorist_bodily_injury:{
-                limit_key:"fifty_one_hundred"
-            },
-    	    underinsured_motorist_bodily_injury:{
-                limit_key:"fifty_one_hundred"
-            }
-    	},
-        mailing_address: {
-            line_one: "1 Rodeo Drive",
-            city: "beverly hills",
-            state: "CA",
-            zip_code: "92110"
+    vehicles: [{
+        ownership_type: '',
+        is_used_for_rideshare: true,
+        vehicle_identification: {
+          clearcover_vehicle_id: '3457d9e8-6583-4de2-b4f8-bad701864893'
+        },
+        vehicle_usage: '',
+        vehicle_coverages: {
+          comprehensive: {
+            deductible_key: ''
+          },
+          collision: {
+            waived: true
+          },
+          rental: {
+            waived: true
+          },
+          rideshare: {
+            waived: false
+          },
+          roadside: {
+            waived: false
+          },
+          uninsured_motorist_property_damage: {
+            waived: true
+          }
+        },
+        mileage: {
+          annual: '',
+          total: 0
         }
-    },
-    quote_metadata:{
-      campaign_medium:"Lorem ad exercitation",
-      campaign_name:"veniam cupidatat eu",
-      quote_identifier:"dolore",
-      quote_name:"in aute esse in",
-      partner_unstructured_metadata:{}
-    },
-    vehicles: [
-        {
-            vehicle_identification:{
-                partial_vin:"1GCUKUEJ&D"
-            },
-            mileage:{
-            annual:10000
-         } ,
-         vehicle_usage:"commute",
-         ownership_type:"leased",
-         vehicle_coverages:{
-            comprehensive:{
-               deductible_key:"five_hundred"
-            },
-            collision:{
-               deductible_key:"one_thousand"
-            },
-            rental:{
-               waived:true
-            },
-            roadside:{
-            	waived:false
-            }
-        }
-      }
-    ],
-    drivers: [
-    	{
-    	exclude_from_quote:false,
-    	contact_information:{
-            email_address:"johnny.hustle@gmail.com"
-         },
-    	driver_information:{
-            first_name:"Johnny",
-            middle_name:"Richard",
-            last_name:"Hustle",
-            date_of_birth:"1981-05-27",
-            gender:"male",
-            marital_status:"single",
-            relationship_to_applicant:"applicant"
-         },
+    }],
+    drivers: [{
+        driver_information: {
+          first_name: '',
+          middle_name: '',
+          last_name: '',
+          suffix: '',
+          date_of_birth: '',
+          gender: '',
+          marital_status: '' ,
+          relationship_to_applicant: 'applicant'
+        },
+        contact_information:{
+          email_address: ''
+        },
         current_education:{
-         	education_level_clearcover_key:"bachelors_degree"
-         }
-    	}
-    ]
- }
+           education_level_clearcover_key: ''
+        },
+        exclude_from_quote: false
+      }]
+  }
 
-
+const suffixOpts = [
+  { value: 'Jr', label: 'Jr' },
+  { value: 'Sr', label: 'Sr' },
+  { value: 'I', label: 'I' },
+  { value: 'II', label: 'II' },
+  { value: 'III', label: 'III' },
+  { value: 'IV', label: 'IV' },
+];
 
 const bodilyInjuryOpts = [
     { value: 'twenty_five_fifty', label: 'twenty five fifty' },
@@ -282,6 +260,7 @@ const currentEducationOpts = [
 
 export {
     quoteForm,
+    suffixOpts,
     bodilyInjuryOpts,
     propertyDamageOpts,
     medicalPaymentsOpts,

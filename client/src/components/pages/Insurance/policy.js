@@ -178,6 +178,9 @@ class PolicyQuoteBlock extends Component {
                         </FormGroup>
                     </Col>
                 </Row> 
+                <div className="wizard-finish-button">
+                    <button type="button" className="btn btn-prev btn-success btn-fill pull-right btn-wd">Finish</button>
+                </div>
                 {/* <Row>
                     <Col md={{ span: 10, offset: 1}}>
                         <FormGroup>
